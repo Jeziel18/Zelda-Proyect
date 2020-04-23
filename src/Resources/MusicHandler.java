@@ -53,7 +53,11 @@ public class MusicHandler {
     public void triggerGalaga(){
         changeMusic("space.wav");
     }
-
+    public void triggerZIntro(){
+        changeMusic("zeldaintro.wav");
+    }public void triggerZLevel(){
+        changeMusic("zeldalevel.wav");
+    }
     //Untested
     public void stopAllEffects(){
         try {

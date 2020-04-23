@@ -108,7 +108,7 @@ public class GameState extends State {
             public void onClick() {
                 if (handler.getState() == handler.getGameState()) {
                     handler.getMouseManager().setUimanager(null);
-                    handler.getMusicHandler().stopMusic();
+                    handler.getMusicHandler().triggerZIntro();
                     State.setState(handler.getZeldaIntroState());
                 }
             }

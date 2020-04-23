@@ -24,6 +24,7 @@ public class ZeldaIntroStates extends State {
     @Override
     public void tick() {
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)){
+        	handler.getMusicHandler().triggerZLevel();
             handler.changeState(handler.getZeldaGameState());
         }
         if(stage == 0) {
