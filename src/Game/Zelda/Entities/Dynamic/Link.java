@@ -21,7 +21,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Link extends BaseMovingEntity {
 
 
-    private final int animSpeed = 120;
+    private final int animSpeed = 120; 
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
     public boolean movingMap = false;
     Direction movingTo;
@@ -43,23 +43,23 @@ public class Link extends BaseMovingEntity {
         if (movingMap){
             switch (movingTo) {
                 case RIGHT:
-                    handler.getZeldaGameState().cameraOffsetX++;
+                    handler.getZeldaGameState().cameraOffsetX+=4;
                     newMapX++;
                     if (xExtraCounter>0){
-                        x+=2;
-                        xExtraCounter--;
+                        x-=3;
+                        xExtraCounter-=(1/2);
                         animation.tick();
 
-                    }else{
+                    }else{ 
                         x--;
                     }
                     break;
                 case LEFT:
-                    handler.getZeldaGameState().cameraOffsetX--;
+                    handler.getZeldaGameState().cameraOffsetX-=4;
                     newMapX--;
                     if (xExtraCounter>0){
-                        x-=2;
-                        xExtraCounter--;
+                        x+=3;
+                        xExtraCounter-=(1/2);
                         animation.tick();
 
                     }else{
@@ -67,11 +67,11 @@ public class Link extends BaseMovingEntity {
                     }
                     break;
                 case UP:
-                    handler.getZeldaGameState().cameraOffsetY--;
+                    handler.getZeldaGameState().cameraOffsetY-=4;
                     newMapY++;
                     if (yExtraCounter>0){
-                        y-=2;
-                        yExtraCounter--;
+                        y+=3;
+                        yExtraCounter-=(1/2);
                         animation.tick();
 
                     }else{
@@ -79,11 +79,11 @@ public class Link extends BaseMovingEntity {
                     }
                     break;
                 case DOWN:
-                    handler.getZeldaGameState().cameraOffsetY++;
+                    handler.getZeldaGameState().cameraOffsetY+=4;
                     newMapY--;
                     if (yExtraCounter>0){
-                        y+=2;
-                        yExtraCounter--;
+                        y-=3;
+                        yExtraCounter-=(1/2);
                         animation.tick();
                     }else{
                         y--;
@@ -191,26 +191,26 @@ public class Link extends BaseMovingEntity {
                         movingTo = ((SectionDoor) objects).direction;
                         switch (((SectionDoor) objects).direction) {
                             case RIGHT:
-                                newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * worldScale);
+                                newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * worldScale)/4;
                                 newMapY = 0;
                                 handler.getZeldaGameState().mapX++;
                                 xExtraCounter = 8 * worldScale + (2 * worldScale);
                                 break;
                             case LEFT:
-                                newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * worldScale);
+                                newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * worldScale)/4;
                                 newMapY = 0;
                                 handler.getZeldaGameState().mapX--;
                                 xExtraCounter = 8 * worldScale + (2 * worldScale);
                                 break;
                             case UP:
                                 newMapX = 0;
-                                newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * worldScale);
+                                newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * worldScale)/4;
                                 handler.getZeldaGameState().mapY--;
                                 yExtraCounter = 8 * worldScale + (2 * worldScale);
                                 break;
                             case DOWN:
                                 newMapX = 0;
-                                newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * worldScale);
+                                newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * worldScale)/4;
                                 handler.getZeldaGameState().mapY++;
                                 yExtraCounter = 8 * worldScale + (2 * worldScale);
                                 break;
