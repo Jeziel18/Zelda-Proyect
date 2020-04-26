@@ -25,3 +25,4 @@ public class MMSolidStaticEntities extends MMBaseEntity {
         g.drawImage(sprite,x ,y,width,height,null);
     }
 }
+

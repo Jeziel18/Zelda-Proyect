@@ -77,6 +77,11 @@ public class Images {
     public static BufferedImage EnemyOverwoldImage;
     public SpriteSheet EnemyOverwoldSpriteSheet;
     public static BufferedImage[] bouncyEnemyFrames;
+    
+    public static BufferedImage characters;
+    public static BufferedImage[] oldMan;
+    public static SpriteSheet man_fire;
+
 
     public Images() {
 
@@ -110,6 +115,8 @@ public class Images {
         zeldaLinkFrames = new BufferedImage[8];
 
         bouncyEnemyFrames = new BufferedImage[2];
+        
+        oldMan = new BufferedImage[2]; 
 
 
 
@@ -214,6 +221,12 @@ public class Images {
 
             intro = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/intro.png"));
             start = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/startScreen.png"));
+            
+            characters = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc.png")); //NPC Images
+            man_fire = new SpriteSheet(characters); //SpriteSheet for NPC
+            oldMan[0] = man_fire.crop(1, 11, 16, 16); //Old Man for cave
+            oldMan[1] = man_fire.crop(52, 11, 16, 16); //Fire for cave
+
 
             zeldaImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/tileSet.png"));
             zeldaTriforceLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/triforceLogo.png"));

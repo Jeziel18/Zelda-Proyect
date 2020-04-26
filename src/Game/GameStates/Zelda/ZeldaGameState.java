@@ -21,6 +21,9 @@ public class ZeldaGameState extends State {
 
     public static int xOffset,yOffset,stageWidth,stageHeight,worldScale;
     public int cameraOffsetX,cameraOffsetY;
+    
+    public int caveTimer = 2; //Timer cave 
+    
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
     public int mapX,mapY,mapWidth,mapHeight;
 
@@ -65,13 +68,18 @@ public class ZeldaGameState extends State {
     }
 
 
-
+    
     @Override
     public void tick() {
+    	if(caveTimer == 0) {
+    		System.out.println("True");
+    	}
+    	
         link.tick();
         if (inCave){
-
+        	caveTimer --;
         }else {
+        	caveTimer = 2;
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
                     entity.tick();
@@ -121,6 +129,10 @@ public class ZeldaGameState extends State {
         //cave
         for (int i = 0;i < 16;i++){
             for (int j = 0;j < 11;j++) {
+            	caveObjects.add(new SolidStaticEntities(7, 4, Images.oldMan[0], handler));
+            	if ((i == 4 && j==4 ) || (i == 10 && j==4 )){
+            		caveObjects.add(new SolidStaticEntities(i, j, Images.oldMan[1], handler));
+            	}
                 if (i>=2 && i<=13 && j>=2 && j< 9 ) {
                     continue;
                 }else{

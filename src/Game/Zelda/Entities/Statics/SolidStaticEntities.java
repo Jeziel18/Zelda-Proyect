@@ -4,6 +4,7 @@ import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.World.MapBuilder;
 import Main.Handler;
+import Resources.Images;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,7 +17,7 @@ public class SolidStaticEntities extends BaseEntity {
     public SolidStaticEntities(int x, int y, BufferedImage sprite, Handler handler) {
         super(x, y, sprite,handler);
         bounds = new Rectangle((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
-
+        
     }
 
     @Override
