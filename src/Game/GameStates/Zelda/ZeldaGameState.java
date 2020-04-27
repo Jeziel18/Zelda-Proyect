@@ -23,7 +23,7 @@ public class ZeldaGameState extends State {
     public int cameraOffsetX,cameraOffsetY;
     
     public int caveTimer = 2; //Timer cave 
-    
+    public int health = 4;
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
     public int mapX,mapY,mapWidth,mapHeight;
 
@@ -96,7 +96,7 @@ public class ZeldaGameState extends State {
 
     @Override
     public void render(Graphics g) {
-        if (inCave){
+    	 if (inCave){
             for (SolidStaticEntities entity : caveObjects) {
                 entity.render(g);
             }
@@ -122,7 +122,8 @@ public class ZeldaGameState extends State {
             g.fillRect(0, 0, handler.getWidth(), yOffset);
             g.fillRect(0, yOffset + stageHeight, handler.getWidth(), handler.getHeight());
         }
-
+    	 for (int i = 0; i<health;i++) {
+             g.drawImage(Images.hearts, (handler.getWidth()/2) + handler.getWidth()/6 + ((81)*i), handler.getHeight()/3, 64, 56, null); }
     }
 
     private void addWorldObjects() {

@@ -9,6 +9,7 @@ import Resources.Animation;
 import Resources.Images;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import static Game.GameStates.Zelda.ZeldaGameState.worldScale;
@@ -22,15 +23,14 @@ public class Link extends BaseMovingEntity {
 
 
     private final int animSpeed = 120; 
-    int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-    public boolean movingMap = false;
+    int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0,deathCooldown =0;
+    public boolean movingMap = false, linkHurt = false;
     Direction movingTo;
 
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite, handler);
         speed = 4;
-        health = 6;
         BufferedImage[] animList = new BufferedImage[2];
         animList[0] = sprite[4];
         animList[1] = sprite[5];
@@ -40,6 +40,17 @@ public class Link extends BaseMovingEntity {
 
     @Override
     public void tick() {
+    	if (linkHurt) {
+    		 if (deathCooldown<=0){ 
+                 deathCooldown=60;
+                 linkHurt=false;
+             }else{
+                 deathCooldown--;
+             }
+    		 if (deathCooldown == 60) {
+    			 health--;
+    		 }
+    	}
         if (movingMap){
             switch (movingTo) {
                 case RIGHT:
@@ -147,6 +158,9 @@ public class Link extends BaseMovingEntity {
             } else {
                 moving = false;
             }
+        }
+        if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_H)) && handler.getZeldaGameState().health < 4) {
+			handler.getZeldaGameState().health++;
         }
     }
 
