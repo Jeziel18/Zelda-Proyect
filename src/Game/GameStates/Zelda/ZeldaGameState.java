@@ -129,9 +129,9 @@ public class ZeldaGameState extends State {
         //cave
         for (int i = 0;i < 16;i++){
             for (int j = 0;j < 11;j++) {
-            	caveObjects.add(new SolidStaticEntities(7, 4, Images.oldMan[0], handler));
-            	if ((i == 4 && j==4 ) || (i == 10 && j==4 )){
-            		caveObjects.add(new SolidStaticEntities(i, j, Images.oldMan[1], handler));
+            	caveObjects.add(new SolidStaticEntities(7, 4, Images.oldMan[0], handler)); //Add old man
+            	if ((i == 4 && j==4 ) || (i == 10 && j==4 )){ // i and j for fire
+            		caveObjects.add(new SolidStaticEntities(i, j, Images.oldMan[1], handler)); //Add fire
             	}
                 if (i>=2 && i<=13 && j>=2 && j< 9 ) {
                     continue;

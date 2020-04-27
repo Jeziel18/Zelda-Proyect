@@ -78,9 +78,14 @@ public class Images {
     public SpriteSheet EnemyOverwoldSpriteSheet;
     public static BufferedImage[] bouncyEnemyFrames;
     
-    public static BufferedImage characters;
-    public static BufferedImage[] oldMan;
-    public static SpriteSheet man_fire;
+    public static BufferedImage characters; // Getting npc image
+    public static BufferedImage[] oldMan; // Array to bring old man and fire
+    public static SpriteSheet man_fire; // Sprite sheet
+    public static BufferedImage linkHearts; // Hearts for live
+    public static SpriteSheet menu; // Sprite sheet
+    public static BufferedImage hearts; // Hearts for Link's live
+
+    
 
 
     public Images() {
@@ -222,11 +227,14 @@ public class Images {
             intro = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/intro.png"));
             start = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/startScreen.png"));
             
-            characters = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc.png")); //NPC Images
+            characters = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc.png")); //NPC Image
             man_fire = new SpriteSheet(characters); //SpriteSheet for NPC
             oldMan[0] = man_fire.crop(1, 11, 16, 16); //Old Man for cave
             oldMan[1] = man_fire.crop(52, 11, 16, 16); //Fire for cave
-
+            
+            linkHearts = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/menu.png")); //Menu Image
+            menu = new SpriteSheet(linkHearts); // Images for link hearts
+            hearts = menu.crop(52, 230, 7, 8); //Hearts for Link's live
 
             zeldaImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/tileSet.png"));
             zeldaTriforceLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/triforceLogo.png"));
