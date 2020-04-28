@@ -23,7 +23,7 @@ public class ZeldaGameState extends State {
     public int cameraOffsetX,cameraOffsetY;
     
     public int caveTimer = 2; //Timer cave 
-    public int health = 4;
+    public int health = 4; //Links' health 
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
     public int mapX,mapY,mapWidth,mapHeight;
 

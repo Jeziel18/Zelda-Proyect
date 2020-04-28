@@ -40,6 +40,11 @@ public class Link extends BaseMovingEntity {
 
     @Override
     public void tick() {
+    	// Take 1 health from Link
+    	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_Z) && handler.getZeldaGameState().health > 0) {
+    		handler.getZeldaGameState().health--;
+    	}
+    	
     	if (linkHurt) {
     		 if (deathCooldown<=0){ 
                  deathCooldown=60;
@@ -48,7 +53,7 @@ public class Link extends BaseMovingEntity {
                  deathCooldown--;
              }
     		 if (deathCooldown == 60) {
-    			 health--;
+    			 handler.getZeldaGameState().health--;
     		 }
     	}
         if (movingMap){
