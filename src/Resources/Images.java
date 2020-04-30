@@ -228,6 +228,9 @@ public class Images {
 
             intro = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/intro.png"));
             start = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/startScreen.png"));
+            zeldaLinkImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/link.png"));
+            zeldaLinkImage = createImageTransparent(zeldaLinkImage,"link_0,128,0_green",new Color(0,128,0).getRGB());
+            zeldaLinkSpriteSheet = new SpriteSheet(createImageTransparent(zeldaLinkImage,"link_116,116,116_gray",new Color(116,116,116).getRGB()));
             
             characters = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc.png")); //NPC Image
             man_fire = new SpriteSheet(characters); //SpriteSheet for NPC
@@ -264,9 +267,7 @@ public class Images {
             zeldaStoryFrames[6] = storySpriteSheet.crop(515, 475, 256,223);
             zeldaStoryFrames[7] = storySpriteSheet.crop(772, 475, 256,64);
 
-            zeldaLinkImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/link.png"));
-            zeldaLinkImage = createImageTransparent(zeldaLinkImage,"link_0,128,0_green",new Color(0,128,0).getRGB());
-            zeldaLinkSpriteSheet = new SpriteSheet(createImageTransparent(zeldaLinkImage,"link_116,116,116_gray",new Color(116,116,116).getRGB()));
+            
             zeldaLinkFrames[0] = zeldaLinkSpriteSheet.crop(1,11,16,16);
             zeldaLinkFrames[1] = zeldaLinkSpriteSheet.crop(18,11,16,16);
             zeldaLinkFrames[2] = zeldaLinkSpriteSheet.crop(35,11,16,16);
