@@ -8,6 +8,7 @@ public enum Direction {
     RIGHT("Right"),
     UP("Up"),
     DOWN("Down");
+	
 
     private String direction;
 

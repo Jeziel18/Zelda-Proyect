@@ -26,6 +26,12 @@ public class Link extends BaseMovingEntity {
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0,deathCooldown =0;
     public boolean movingMap = false, linkHurt = false;
     Direction movingTo;
+    boolean R = false;
+    boolean shift = false;
+    int hit = 20; 
+    boolean linkAttack = false;
+    boolean linkHit = false, animacion = false, attacking = false;
+    boolean bienveR = false, bienveL = false, bienveU = false, bienveD = false;
 
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -34,7 +40,7 @@ public class Link extends BaseMovingEntity {
         BufferedImage[] animList = new BufferedImage[2];
         animList[0] = sprite[4];
         animList[1] = sprite[5];
-
+        
         animation = new Animation(animSpeed,animList);
     }
 
@@ -45,6 +51,7 @@ public class Link extends BaseMovingEntity {
     		handler.getZeldaGameState().health--;
     	}
     	
+    
     	if (linkHurt) {
     		 if (deathCooldown<=0){ 
                  deathCooldown=60;
@@ -115,8 +122,76 @@ public class Link extends BaseMovingEntity {
                 newMapY = 0;
             }
         }else {
+        	
+        	 if(animacion) {
+             	animation.tick();
+             	if(animation.end) {
+             		bienveR = true;
+             		bienveL = true;
+             		bienveU = true;
+             		bienveD = true;
+             		animacion = false;
+             		attacking = false;
+             	}
+             }
+             
+             if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+             
+             	int hola = 240;
+             	  	
+             	
+                      if (direction.equals(UP)) {
+                          BufferedImage[] animList = new BufferedImage[3];
+                          animList[0] = Images.zeldaLinkAttacks[9];
+                          animList[1] = Images.zeldaLinkAttacks[10];
+                          animList[2] = Images.zeldaLinkAttacks[11];
+                          animation = new Animation(hola, animList);
+                          direction = UP;
+                          sprite = sprites[4];
+                          
+                      }
+                     
+                      else if (direction.equals(DOWN)) {
+                          BufferedImage[] animList = new BufferedImage[3];
+                          animList[0] = Images.zeldaLinkAttacks[0];
+                          animList[1] = Images.zeldaLinkAttacks[1];
+                          animList[2] = Images.zeldaLinkAttacks[2];
+                          animation = new Animation(hola, animList);
+                          direction = DOWN;
+                          sprite = sprites[0];
+                          
+                      }
+                      
+                      else if (direction == Direction.LEFT) {
+                          BufferedImage[] animList = new BufferedImage[3];
+                          animList[0] = Images.zeldaLinkAttacks[6];
+                          animList[1] = Images.zeldaLinkAttacks[7];
+                          animList[2] = Images.zeldaLinkAttacks[8];
+                          animation = new Animation(hola, animList);
+                          direction = Direction.LEFT;
+                          sprite = Images.flipHorizontal(sprites[3]);
+                          
+                      }
+                      
+                      else if (direction == Direction.RIGHT) {
+                          BufferedImage[] animList = new BufferedImage[3];
+                          animList[0] = Images.zeldaLinkAttacks[3];
+                          animList[1] = Images.zeldaLinkAttacks[4];
+                          animList[2] = Images.zeldaLinkAttacks[5];
+                          animation = new Animation(hola, animList);
+                          direction = Direction.RIGHT;
+                          sprite = (sprites[3]);
+                          
+                      }
+                      animacion = true;
+                      attacking = true;
+             	 
+             }
+            
+        	
             if (handler.getKeyManager().up) {
-                if (direction != UP) {
+                if (direction != UP || bienveU) {
+                	bienveU = false;
                     BufferedImage[] animList = new BufferedImage[2];
                     animList[0] = sprites[4];
                     animList[1] = sprites[5];
@@ -128,7 +203,8 @@ public class Link extends BaseMovingEntity {
                 move(direction);
 
             } else if (handler.getKeyManager().down) {
-                if (direction != DOWN) {
+                if (direction != DOWN || bienveD) {
+                	bienveD = false;
                     BufferedImage[] animList = new BufferedImage[2];
                     animList[0] = sprites[0];
                     animList[1] = sprites[1];
@@ -139,7 +215,8 @@ public class Link extends BaseMovingEntity {
                 animation.tick();
                 move(direction);
             } else if (handler.getKeyManager().left) {
-                if (direction != Direction.LEFT) {
+                if (direction != Direction.LEFT || bienveL) {
+                	bienveL = false;
                     BufferedImage[] animList = new BufferedImage[2];
                     animList[0] = Images.flipHorizontal(sprites[2]);
                     animList[1] = Images.flipHorizontal(sprites[3]);
@@ -150,7 +227,8 @@ public class Link extends BaseMovingEntity {
                 animation.tick();
                 move(direction);
             } else if (handler.getKeyManager().right) {
-                if (direction != Direction.RIGHT) {
+                if (direction != Direction.RIGHT || bienveR) {
+                	bienveR = false;
                     BufferedImage[] animList = new BufferedImage[2];
                     animList[0] = (sprites[2]);
                     animList[1] = (sprites[3]);
@@ -176,11 +254,26 @@ public class Link extends BaseMovingEntity {
 
         } else {
             if (movingMap){
+            	
                 g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
+            
             }
-            g.drawImage(sprite, x , y, width , height , null);
+            if(attacking) {
+                g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
+
+            }
+            else {
+            	g.drawImage(sprite, x , y, width , height , null);	
+            }
+            
         }
+        
+        
+       
+        
     }
+        
+    
 
     @Override
     public void move(Direction direction) {
