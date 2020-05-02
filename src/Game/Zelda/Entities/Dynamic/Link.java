@@ -137,7 +137,7 @@ public class Link extends BaseMovingEntity {
              
              if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
              
-             	int hola = 240;
+             	int hola = 120;
              	  	
              	
                       if (direction.equals(UP)) {

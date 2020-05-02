@@ -7,6 +7,7 @@ import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
+import Game.Zelda.Entities.Statics.Sword;
 import Main.Handler;
 import Resources.Images;
 
@@ -32,7 +33,8 @@ public class ZeldaGameState extends State {
     public Link link;
     public static boolean inCave = false;
     public ArrayList<SolidStaticEntities> caveObjects;
-
+    public ArrayList<Sword> sword;
+    public boolean gotSword = false;
 
 
     public ZeldaGameState(Handler handler) {
@@ -41,7 +43,7 @@ public class ZeldaGameState extends State {
         yOffset = handler.getHeight()/4;
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
-        worldScale = 3;
+        worldScale = 2;
         mapX = 7;
         mapY = 7;
         mapWidth = 256;
@@ -51,6 +53,7 @@ public class ZeldaGameState extends State {
         objects = new ArrayList<>();
         enemies = new ArrayList<>();
         caveObjects = new ArrayList<>();
+        sword = new ArrayList<>();
         for (int i =0;i<16;i++){
             objects.add(new ArrayList<>());
             enemies.add(new ArrayList<>());
@@ -77,7 +80,18 @@ public class ZeldaGameState extends State {
     	
         link.tick();
         if (inCave){
-        	caveTimer --;
+        	caveTimer --;     
+        	ArrayList<SolidStaticEntities> toREmove = new ArrayList<>();
+        	for (SolidStaticEntities entity : sword) {
+        	if (entity instanceof Sword) {
+             	if(entity.bounds.intersects(link.bounds)) {
+        		System.out.println(gotSword);
+        		gotSword = true;
+        		toREmove.add(entity);
+             } } }
+        	 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
+                 entity.tick();
+             }
         }else {
         	caveTimer = 2;
             if (!link.movingMap) {
@@ -99,7 +113,10 @@ public class ZeldaGameState extends State {
     	 if (inCave){
             for (SolidStaticEntities entity : caveObjects) {
                 entity.render(g);
+            } for (Sword entity : sword) {
+                entity.render(g);
             }
+
             g.setColor(Color.WHITE);
             g.setFont(new Font("TimesRoman", Font.BOLD, 32));
             g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset+ ((16*worldScale)));
@@ -130,9 +147,12 @@ public class ZeldaGameState extends State {
         //cave
         for (int i = 0;i < 16;i++){
             for (int j = 0;j < 11;j++) {
+            	
             	caveObjects.add(new SolidStaticEntities(7, 4, Images.oldMan[0], handler)); //Add old man
+            	this.sword.add(new Sword(7,6, Images.oldMan[2], handler)); //Add sword }
             	if ((i == 4 && j==4 ) || (i == 10 && j==4 )){ // i and j for fire
             		caveObjects.add(new SolidStaticEntities(i, j, Images.oldMan[1], handler)); //Add fire
+            		
             	}
                 if (i>=2 && i<=13 && j>=2 && j< 9 ) {
                     continue;
