@@ -123,7 +123,7 @@ public class Images {
 
         bouncyEnemyFrames = new BufferedImage[2];
         
-        oldMan = new BufferedImage[3]; 
+        oldMan = new BufferedImage[5]; 
 
 
 
@@ -237,6 +237,8 @@ public class Images {
             oldMan[0] = man_fire.crop(1, 11, 16, 16); //Old Man for cave
             oldMan[1] = man_fire.crop(52, 11, 16, 16); //Fire for cave
             oldMan[2] = zeldaLinkSpriteSheet.crop(36, 154, 8, 16); //Sword item
+            oldMan[3] = man_fire.crop(174, 31, 16, 16);
+            oldMan[4] = zeldaLinkSpriteSheet.crop(230, 11, 16, 16);
             
             linkHearts = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/menu.png")); //Menu Image
             menu = new SpriteSheet(linkHearts); // Images for link hearts

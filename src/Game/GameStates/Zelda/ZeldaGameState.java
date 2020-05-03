@@ -27,7 +27,7 @@ public class ZeldaGameState extends State {
     public int health = 4; //Links' health 
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
     public int mapX,mapY,mapWidth,mapHeight;
-
+    public int swordTimer = 120;
     public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
     public Link link;
@@ -43,7 +43,7 @@ public class ZeldaGameState extends State {
         yOffset = handler.getHeight()/4;
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
-        worldScale = 2;
+        worldScale = 3;
         mapX = 7;
         mapY = 7;
         mapWidth = 256;
@@ -70,24 +70,24 @@ public class ZeldaGameState extends State {
 
     }
 
-
+    
     
     @Override
     public void tick() {
+    	if(gotSword) {
+    		swordTimer --;
+    	}
     	if(caveTimer == 0) {
     		System.out.println("True");
     	}
-    	
         link.tick();
         if (inCave){
         	caveTimer --;     
-        	ArrayList<SolidStaticEntities> toREmove = new ArrayList<>();
         	for (SolidStaticEntities entity : sword) {
         	if (entity instanceof Sword) {
              	if(entity.bounds.intersects(link.bounds)) {
-        		System.out.println(gotSword);
         		gotSword = true;
-        		toREmove.add(entity);
+        		
              } } }
         	 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
                  entity.tick();
@@ -110,11 +110,14 @@ public class ZeldaGameState extends State {
 
     @Override
     public void render(Graphics g) {
-    	 if (inCave){
+    	 if (inCave){    		 
             for (SolidStaticEntities entity : caveObjects) {
                 entity.render(g);
             } for (Sword entity : sword) {
                 entity.render(g);
+                if(gotSword) {
+        			g.drawImage(Images.oldMan[3], 814, 550, 25, 55, null);
+        		 }
             }
 
             g.setColor(Color.WHITE);
@@ -149,7 +152,10 @@ public class ZeldaGameState extends State {
             for (int j = 0;j < 11;j++) {
             	
             	caveObjects.add(new SolidStaticEntities(7, 4, Images.oldMan[0], handler)); //Add old man
-            	this.sword.add(new Sword(7,6, Images.oldMan[2], handler)); //Add sword }
+            	this.sword.add(new Sword(7,6, Images.oldMan[2], handler)); //Add sword 
+            	if(gotSword) {
+            		this.sword.add(new Sword(7,6, Images.oldMan[3], handler));
+            	}
             	if ((i == 4 && j==4 ) || (i == 10 && j==4 )){ // i and j for fire
             		caveObjects.add(new SolidStaticEntities(i, j, Images.oldMan[1], handler)); //Add fire
             		

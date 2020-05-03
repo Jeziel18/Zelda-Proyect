@@ -32,6 +32,8 @@ public class Link extends BaseMovingEntity {
     boolean linkAttack = false;
     boolean linkHit = false, animacion = false, attacking = false;
     boolean bienveR = false, bienveL = false, bienveU = false, bienveD = false;
+    int powerUp = 2;
+    boolean keyLock = false;
 
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -46,6 +48,11 @@ public class Link extends BaseMovingEntity {
 
     @Override
     public void tick() {
+    	
+    	if(powerUp >= 0 && powerUp <= 1) {
+    		handler.getMusicHandler().playEffect("zeldaitem.wav"); // Play Effect when pick up sword
+    	}
+    	
     	// Take 1 health from Link
     	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_Z) && handler.getZeldaGameState().health > 0) {
     		handler.getZeldaGameState().health--;
@@ -132,20 +139,27 @@ public class Link extends BaseMovingEntity {
              		bienveD = true;
              		animacion = false;
              		attacking = false;
+             		speed = 4;
              	}
              }
+             if(handler.getZeldaGameState().gotSword && handler.getZeldaGameState().swordTimer >= 0 && handler.getZeldaGameState().swordTimer <= 119) {
+                 sprite = Images.oldMan[4];  // Link pick up sword
+                 powerUp--; // timer for music to sound 1 time
+                 keyLock = true;  //Locking keys
+             }else{
+            	 keyLock = false;
+             }
              
-             if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
-             
-             	int hola = 120;
+             if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && handler.getZeldaGameState().gotSword) {
+            	speed = 0; // While attacking Link can't move
+             	int animationSpeed = 120; //Link Attack animation Speed
              	  	
-             	
                       if (direction.equals(UP)) {
                           BufferedImage[] animList = new BufferedImage[3];
                           animList[0] = Images.zeldaLinkAttacks[9];
                           animList[1] = Images.zeldaLinkAttacks[10];
                           animList[2] = Images.zeldaLinkAttacks[11];
-                          animation = new Animation(hola, animList);
+                          animation = new Animation(animationSpeed, animList);
                           direction = UP;
                           sprite = sprites[4];
                           
@@ -156,7 +170,7 @@ public class Link extends BaseMovingEntity {
                           animList[0] = Images.zeldaLinkAttacks[0];
                           animList[1] = Images.zeldaLinkAttacks[1];
                           animList[2] = Images.zeldaLinkAttacks[2];
-                          animation = new Animation(hola, animList);
+                          animation = new Animation(animationSpeed, animList);
                           direction = DOWN;
                           sprite = sprites[0];
                           
@@ -167,7 +181,7 @@ public class Link extends BaseMovingEntity {
                           animList[0] = Images.zeldaLinkAttacks[6];
                           animList[1] = Images.zeldaLinkAttacks[7];
                           animList[2] = Images.zeldaLinkAttacks[8];
-                          animation = new Animation(hola, animList);
+                          animation = new Animation(animationSpeed, animList);
                           direction = Direction.LEFT;
                           sprite = Images.flipHorizontal(sprites[3]);
                           
@@ -178,17 +192,17 @@ public class Link extends BaseMovingEntity {
                           animList[0] = Images.zeldaLinkAttacks[3];
                           animList[1] = Images.zeldaLinkAttacks[4];
                           animList[2] = Images.zeldaLinkAttacks[5];
-                          animation = new Animation(hola, animList);
+                          animation = new Animation(animationSpeed, animList);
                           direction = Direction.RIGHT;
                           sprite = (sprites[3]);
                           
                       }
-                      animacion = true;
-                      attacking = true;
+                      animacion = true; //Changing all booleans
+                      attacking = true; // Making Link attack 
              	 
              }
             
-        	
+        	if(!keyLock) {
             if (handler.getKeyManager().up) {
                 if (direction != UP || bienveU) {
                 	bienveU = false;
@@ -238,8 +252,10 @@ public class Link extends BaseMovingEntity {
                 }
                 animation.tick();
                 move(direction);
+            }
             } else {
                 moving = false;
+                
             }
         }
         if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_H)) && handler.getZeldaGameState().health < 4) {
