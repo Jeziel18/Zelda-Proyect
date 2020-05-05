@@ -4,6 +4,7 @@ import Game.GameStates.State;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.Direction;
 import Game.Zelda.Entities.Dynamic.Link;
+import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
@@ -30,7 +31,9 @@ public class ZeldaGameState extends State {
     public int swordTimer = 120;
     public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
+    public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> monster;
     public Link link;
+    public Zora zora;
     public static boolean inCave = false;
     public ArrayList<SolidStaticEntities> caveObjects;
     public ArrayList<Sword> sword;
@@ -52,6 +55,7 @@ public class ZeldaGameState extends State {
         cameraOffsetY = ((mapHeight*mapY) + mapY + 1)*worldScale;
         objects = new ArrayList<>();
         enemies = new ArrayList<>();
+       
         caveObjects = new ArrayList<>();
         sword = new ArrayList<>();
         for (int i =0;i<16;i++){
@@ -66,8 +70,8 @@ public class ZeldaGameState extends State {
         addWorldObjects();
 
         link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames,handler);
-
-
+        
+        zora = new Zora(684, 525,Images.Enemys,handler); // Create enemy
     }
 
     
@@ -81,6 +85,7 @@ public class ZeldaGameState extends State {
     		System.out.println("True");
     	}
         link.tick();
+        zora.tick(); //Get the animation running
         if (inCave){
         	caveTimer --;     
         	for (SolidStaticEntities entity : sword) {
@@ -125,6 +130,7 @@ public class ZeldaGameState extends State {
             g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset+ ((16*worldScale)));
             g.drawString("  ALONE !   TAKE  THIS",(4 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
             link.render(g);
+            zora.render(g); // draw the enemy
         }else {
             g.drawImage(Images.zeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
             if (!link.movingMap) {
@@ -136,6 +142,7 @@ public class ZeldaGameState extends State {
                 }
             }
             link.render(g);
+            zora.render(g); // draw the enemy
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, xOffset, handler.getHeight());
             g.fillRect(xOffset + stageWidth, 0, handler.getWidth(), handler.getHeight());

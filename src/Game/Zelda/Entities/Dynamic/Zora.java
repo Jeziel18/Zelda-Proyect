@@ -37,8 +37,8 @@ public class Zora extends BaseMovingEntity {
         super(x, y, sprite, handler);
         speed = 4;
         BufferedImage[] animList = new BufferedImage[2];
-        animList[0] = sprite[4];
-        animList[1] = sprite[5];
+        animList[0] = sprite[0];
+        animList[1] = sprite[1];
         
         animation = new Animation(animSpeed,animList);
     }
@@ -62,11 +62,11 @@ public class Zora extends BaseMovingEntity {
             if (handler.getKeyManager().up) {
                 if (direction != UP) {
                     BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = sprites[4];
-                    animList[1] = sprites[5];
+                    animList[0] = sprites[0];
+                    animList[1] = sprites[1];
                     animation = new Animation(animSpeed, animList);
                     direction = UP;
-                    sprite = sprites[4];
+                    sprite = sprites[0];
                 }
                 animation.tick();
                 move(direction);
@@ -85,22 +85,22 @@ public class Zora extends BaseMovingEntity {
             } else if (handler.getKeyManager().left) {
                 if (direction != Direction.LEFT) {
                     BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = Images.flipHorizontal(sprites[2]);
-                    animList[1] = Images.flipHorizontal(sprites[3]);
+                    animList[0] = Images.flipHorizontal(sprites[0]);
+                    animList[1] = Images.flipHorizontal(sprites[1]);
                     animation = new Animation(animSpeed, animList);
                     direction = Direction.LEFT;
-                    sprite = Images.flipHorizontal(sprites[3]);
+                    sprite = Images.flipHorizontal(sprites[0]);
                 }
                 animation.tick();
                 move(direction);
             } else if (handler.getKeyManager().right) {
                 if (direction != Direction.RIGHT) {
                     BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = (sprites[2]);
-                    animList[1] = (sprites[3]);
+                    animList[0] = (sprites[0]);
+                    animList[1] = (sprites[1]);
                     animation = new Animation(animSpeed, animList);
                     direction = Direction.RIGHT;
-                    sprite = (sprites[3]);
+                    sprite = (sprites[0]);
                 }
                 animation.tick();
                 move(direction);

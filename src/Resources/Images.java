@@ -127,7 +127,7 @@ public class Images {
         bouncyEnemyFrames = new BufferedImage[2];
         
         oldMan = new BufferedImage[5]; // New Images for cave and animations 
-        Enemys  = new BufferedImage[3]; // Images of the enemys
+        Enemys  = new BufferedImage[2]; // Images of the enemys
 
 
 
