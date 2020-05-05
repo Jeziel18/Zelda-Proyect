@@ -295,7 +295,7 @@ public class Link extends BaseMovingEntity {
     public void move(Direction direction) {
         moving = true;
         changeIntersectingBounds();
-        //chack for collisions
+        //check for collisions
         if (ZeldaGameState.inCave){
             for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
                 if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
