@@ -85,6 +85,9 @@ public class Images {
     public static BufferedImage linkHearts; // Hearts for live
     public static SpriteSheet menu; // Sprite sheet
     public static BufferedImage hearts; // Hearts for Link's live
+    public static BufferedImage enemy; //File location for enemy images
+    public static BufferedImage[] Enemys; // BufferedImage array of enemys
+    public static SpriteSheet monsters; //SpriteSheet for the crop
 
     
 
@@ -123,7 +126,8 @@ public class Images {
 
         bouncyEnemyFrames = new BufferedImage[2];
         
-        oldMan = new BufferedImage[5]; 
+        oldMan = new BufferedImage[5]; // New Images for cave and animations 
+        Enemys  = new BufferedImage[3]; // Images of the enemys
 
 
 
@@ -243,7 +247,13 @@ public class Images {
             linkHearts = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/menu.png")); //Menu Image
             menu = new SpriteSheet(linkHearts); // Images for link hearts
             hearts = menu.crop(52, 230, 7, 8); //Hearts for Link's live
-
+            
+            //Enemy file
+            enemy = ImageIO.read(getClass().getResourceAsStream("/Edited/enemies_overworld_0,128,0_green.png"));
+            monsters = new SpriteSheet(enemy); // Enemy SpriteSheet
+            Enemys[0] = monsters.crop(223, 11, 16, 16); // Zora (EU)
+            Enemys[1] = monsters.crop(251, 153, 16, 16); // Zora (JPN)
+            
             zeldaImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/tileSet.png"));
             zeldaTriforceLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/triforceLogo.png"));
             zeldaMap = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/map.png"));
