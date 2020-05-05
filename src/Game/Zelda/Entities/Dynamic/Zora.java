@@ -11,6 +11,7 @@ import Resources.Images;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import static Game.GameStates.Zelda.ZeldaGameState.worldScale;
 import static Game.Zelda.Entities.Dynamic.Direction.DOWN;
@@ -28,14 +29,15 @@ public class Zora extends BaseMovingEntity {
     Direction movingTo;
     boolean R = false;
     boolean shift = false;
-    int hit = 20; 
+    int hit = 20, randMove = 0, inAction = 0, direct = 0; 
     boolean linkAttack = false;
     boolean damage = false;
+    Random move = new Random();
 
 
     public Zora(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite, handler);
-        speed = 4;
+        speed = 1;
         BufferedImage[] animList = new BufferedImage[2];
         animList[0] = sprite[0];
         animList[1] = sprite[1];
@@ -45,7 +47,6 @@ public class Zora extends BaseMovingEntity {
 
     @Override
     public void tick() {
-    	
     
     	if (damage) {
     		 if (deathCooldown<=0){ 
@@ -59,57 +60,59 @@ public class Zora extends BaseMovingEntity {
     		 } }
 
           //For Movement
-            if (handler.getKeyManager().up) {
-                if (direction != UP) {
-                    BufferedImage[] animList = new BufferedImage[2];
+    	if (randMove <= 90) {
+    	randMove = move.nextInt(121);
+    	direct = move.nextInt(4);
+    	inAction = randMove + 60;
+    	}
+    	BufferedImage[] animList = new BufferedImage[2];
+    	if (inAction > 0) {
+    		speed = 1;
+    		inAction--;
+    	switch(direct) {
+    		case 0:                
                     animList[0] = sprites[0];
                     animList[1] = sprites[1];
                     animation = new Animation(animSpeed, animList);
                     direction = UP;
                     sprite = sprites[0];
-                }
                 animation.tick();
                 move(direction);
-
-            } else if (handler.getKeyManager().down) {
-                if (direction != DOWN) {
-                    BufferedImage[] animList = new BufferedImage[2];
+                break;
+    		case 1:
                     animList[0] = sprites[0];
                     animList[1] = sprites[1];
                     animation = new Animation(animSpeed, animList);
                     direction = DOWN;
                     sprite = sprites[0];
-                }
                 animation.tick();
                 move(direction);
-            } else if (handler.getKeyManager().left) {
-                if (direction != Direction.LEFT) {
-                    BufferedImage[] animList = new BufferedImage[2];
+                break;
+    		case 2:
                     animList[0] = Images.flipHorizontal(sprites[0]);
                     animList[1] = Images.flipHorizontal(sprites[1]);
                     animation = new Animation(animSpeed, animList);
                     direction = Direction.LEFT;
                     sprite = Images.flipHorizontal(sprites[0]);
-                }
                 animation.tick();
                 move(direction);
-            } else if (handler.getKeyManager().right) {
-                if (direction != Direction.RIGHT) {
-                    BufferedImage[] animList = new BufferedImage[2];
+                break;
+    		case 3:
                     animList[0] = (sprites[0]);
                     animList[1] = (sprites[1]);
                     animation = new Animation(animSpeed, animList);
                     direction = Direction.RIGHT;
                     sprite = (sprites[0]);
-                }
                 animation.tick();
                 move(direction);
             }
-            else {
-                moving = false; }
+    	}else {
+                moving = false; 
+                randMove-=2;
+                }
                 
-             }
-    
+             } 
+
 
     @Override
     public void render(Graphics g) {
@@ -172,8 +175,7 @@ public class Zora extends BaseMovingEntity {
                     }
                 }
                 else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
-                    //dont move
-                    return;
+                    speed = -10;
                 }
             }
         
@@ -196,6 +198,6 @@ public class Zora extends BaseMovingEntity {
         bounds.x = x;
         bounds.y = y;
         changeIntersectingBounds();
-
+        
     }
 }

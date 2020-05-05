@@ -37,7 +37,8 @@ public class ZeldaGameState extends State {
     public static boolean inCave = false;
     public ArrayList<SolidStaticEntities> caveObjects;
     public ArrayList<Sword> sword;
-    public boolean gotSword = false;
+    public ArrayList<Zora> zoraList;
+    public boolean gotSword = false, pasted = false;
 
 
     public ZeldaGameState(Handler handler) {
@@ -55,7 +56,7 @@ public class ZeldaGameState extends State {
         cameraOffsetY = ((mapHeight*mapY) + mapY + 1)*worldScale;
         objects = new ArrayList<>();
         enemies = new ArrayList<>();
-       
+        zoraList = new ArrayList<>();
         caveObjects = new ArrayList<>();
         sword = new ArrayList<>();
         for (int i =0;i<16;i++){
@@ -71,7 +72,8 @@ public class ZeldaGameState extends State {
 
         link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames,handler);
         
-        zora = new Zora(684, 525,Images.Enemys,handler); // Create enemy
+        zora = new Zora(684, 500,Images.Enemys,handler); // Create enemy
+        zoraList.add(zora);
     }
 
     
@@ -106,7 +108,9 @@ public class ZeldaGameState extends State {
                 for (BaseMovingEntity entity : enemies.get(mapX).get(mapY)) {
                     entity.tick();
                     if (entity.getInteractBounds().intersects(link.getInteractBounds())){
-                        link.damage(1);
+                        pasted = true;
+                    }else {
+                    	pasted  = false;
                     }
                 }
             }

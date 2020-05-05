@@ -4,6 +4,7 @@ import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
+import Game.Zelda.Entities.Statics.Sword;
 import Main.Handler;
 import Resources.Animation;
 import Resources.Images;
@@ -48,6 +49,13 @@ public class Link extends BaseMovingEntity {
 
     @Override
     public void tick() {
+    	for (Zora enemies: handler.getZeldaGameState().zoraList) {
+        	if (enemies instanceof Zora) {
+             	if(enemies.bounds.intersects(bounds) || bounds.contains(enemies.bounds)) {
+        		linkHurt = true;
+        		System.out.println("OW");
+             } }
+        }
     	
     	if(powerUp >= 0 && powerUp <= 1) {
     		handler.getMusicHandler().playEffect("zeldaitem.wav"); // Play Effect when pick up sword
@@ -61,13 +69,14 @@ public class Link extends BaseMovingEntity {
     
     	if (linkHurt) {
     		 if (deathCooldown<=0){ 
-                 deathCooldown=60;
+                 deathCooldown=61;
                  linkHurt=false;
              }else{
                  deathCooldown--;
              }
     		 if (deathCooldown == 60) {
     			 handler.getZeldaGameState().health--;
+    			 handler.getMusicHandler().playEffect("laser.wav");
     		 }
     	}
         if (movingMap){
@@ -359,6 +368,7 @@ public class Link extends BaseMovingEntity {
                     return;
                 }
             }
+            
         }
         switch (direction) {
             case RIGHT:
