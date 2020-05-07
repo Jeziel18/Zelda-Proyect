@@ -67,7 +67,7 @@ public class Link extends BaseMovingEntity {
     	}
     	
     
-    	if (linkHurt) {
+    	if (linkHurt && !handler.getZeldaGameState().attackLink) {
     		 if (deathCooldown<=0){ 
                  deathCooldown=61;
                  linkHurt=false;
@@ -148,6 +148,7 @@ public class Link extends BaseMovingEntity {
              		bienveD = true;
              		animacion = false;
              		attacking = false;
+             		handler.getZeldaGameState().attackLink = false;
              		speed = 4;
              	}
              }
@@ -161,6 +162,7 @@ public class Link extends BaseMovingEntity {
              
              if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && handler.getZeldaGameState().gotSword) {
             	speed = 0; // While attacking Link can't move
+            	handler.getZeldaGameState().attackLink = true;
              	int animationSpeed = 120; //Link Attack animation Speed
              	  	
                       if (direction.equals(UP)) {

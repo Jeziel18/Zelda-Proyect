@@ -48,17 +48,11 @@ public class Zora extends BaseMovingEntity {
     @Override
     public void tick() {
     
-    	if (damage) {
-    		 if (deathCooldown<=0){ 
-                 deathCooldown=60;
-                 damage=false;
-             }else{
-                 deathCooldown--;
+    	if (handler.getZeldaGameState().zoraDeath) {
+    		y = -10;
+    		speed = 0;
              }
-    		 if (deathCooldown == 60) {
-    			 //health decreases
-    		 } }
-
+    		  
           //For Movement
     	if (randMove <= 90) {
     	randMove = move.nextInt(121);

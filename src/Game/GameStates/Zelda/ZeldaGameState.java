@@ -38,7 +38,7 @@ public class ZeldaGameState extends State {
     public ArrayList<SolidStaticEntities> caveObjects;
     public ArrayList<Sword> sword;
     public ArrayList<Zora> zoraList;
-    public boolean gotSword = false, pasted = false;
+    public boolean gotSword = false, pasted = false, zoraDeath = false, attackLink = false;
 
 
     public ZeldaGameState(Handler handler) {
@@ -82,6 +82,15 @@ public class ZeldaGameState extends State {
     public void tick() {
     	if(gotSword) {
     		swordTimer --;
+    		for (Zora entity: zoraList) {
+    			if(entity instanceof Zora && !inCave) {
+    				if(link.bounds.intersects(entity.bounds) && attackLink) {
+    					zoraDeath = true;
+    					health++;
+    					System.out.println("Hola");
+    				}
+    			}
+    		}
     	}
     	if(caveTimer == 0) {
     		System.out.println("True");
@@ -89,16 +98,17 @@ public class ZeldaGameState extends State {
         link.tick();
         zora.tick(); //Get the animation running
         if (inCave){
-        	caveTimer --;     
+        	caveTimer --;  
         	for (SolidStaticEntities entity : sword) {
         	if (entity instanceof Sword) {
              	if(entity.bounds.intersects(link.bounds)) {
         		gotSword = true;
-        		
+        	
              } } }
         	 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
                  entity.tick();
              }
+        	 
         }else {
         	caveTimer = 2;
             if (!link.movingMap) {
@@ -134,7 +144,7 @@ public class ZeldaGameState extends State {
             g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset+ ((16*worldScale)));
             g.drawString("  ALONE !   TAKE  THIS",(4 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
             link.render(g);
-            zora.render(g); // draw the enemy
+           
         }else {
             g.drawImage(Images.zeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
             if (!link.movingMap) {
