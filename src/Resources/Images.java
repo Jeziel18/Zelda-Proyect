@@ -60,6 +60,8 @@ public class Images {
 
     public static ArrayList<BufferedImage> zeldaTiles;
     public static BufferedImage[] zeldaTitleFrames;
+    public static BufferedImage movingTiles; //For the moving tiles
+    public static BufferedImage[] zeldaMoveTiles;
     public static BufferedImage[] zeldaStoryFrames;
     public static BufferedImage zeldaWorldLayoutTileImage;
     public SpriteSheet zeldaWorldLayoutTileSpriteSheet;
@@ -84,6 +86,7 @@ public class Images {
     public static SpriteSheet man_fire; // Sprite sheet
     public static BufferedImage linkHearts; // Hearts for live
     public static SpriteSheet menu; // Sprite sheet
+    public static SpriteSheet movers; // Moving tiles sheet
     public static BufferedImage hearts; // Hearts for Link's live
     public static BufferedImage enemy; //File location for enemy images
     public static BufferedImage[] Enemys; // BufferedImage array of enemys
@@ -113,6 +116,7 @@ public class Images {
 
         zeldaTiles = new ArrayList<>();
         zeldaTitleFrames = new BufferedImage[6];
+        zeldaMoveTiles = new BufferedImage[4];
         zeldaStoryFrames = new BufferedImage[8];
         zeldaWorldLayoutTiles = new ArrayList<>();
 
@@ -237,6 +241,8 @@ public class Images {
             zeldaLinkSpriteSheet = new SpriteSheet(createImageTransparent(zeldaLinkImage,"link_116,116,116_gray",new Color(116,116,116).getRGB()));
             
             characters = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc.png")); //NPC Image
+            movingTiles = ImageIO.read(getClass().getResourceAsStream("/Edited/zelda_move_tiles.png")); //Tiles image
+            movers = new SpriteSheet(movingTiles);
             man_fire = new SpriteSheet(characters); //SpriteSheet for NPC
             oldMan[0] = man_fire.crop(1, 11, 16, 16); //Old Man for cave
             oldMan[1] = man_fire.crop(52, 11, 16, 16); //Fire for cave
@@ -247,6 +253,11 @@ public class Images {
             linkHearts = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/menu.png")); //Menu Image
             menu = new SpriteSheet(linkHearts); // Images for link hearts
             hearts = menu.crop(52, 230, 7, 8); //Hearts for Link's live
+           
+            zeldaMoveTiles[0] = movers.crop(12, 7, 16, 16); //up
+            zeldaMoveTiles[1] = movers.crop(32, 7, 16, 16); //down
+            zeldaMoveTiles[2] = movers.crop(52, 7, 16, 16); //right
+            zeldaMoveTiles[3] = movers.crop(72, 7, 16, 16); //left
             
             //Enemy file
             enemy = ImageIO.read(getClass().getResourceAsStream("/Edited/enemies_overworld_0,128,0_green.png"));

@@ -6,6 +6,7 @@ import Game.Zelda.Entities.Dynamic.Direction;
 import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Statics.DungeonDoor;
+import Game.Zelda.Entities.Statics.MovingTile;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.Entities.Statics.Sword;
@@ -37,6 +38,7 @@ public class ZeldaGameState extends State {
     public static boolean inCave = false;
     public ArrayList<SolidStaticEntities> caveObjects;
     public ArrayList<Sword> sword;
+    public ArrayList<MovingTile> mover;
     public ArrayList<Zora> zoraList;
     public boolean gotSword = false, pasted = false, zoraDeath = false, attackLink = false;
 
@@ -47,7 +49,7 @@ public class ZeldaGameState extends State {
         yOffset = handler.getHeight()/4;
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
-        worldScale = 3;
+        worldScale = 2;
         mapX = 7;
         mapY = 7;
         mapWidth = 256;
@@ -59,6 +61,7 @@ public class ZeldaGameState extends State {
         zoraList = new ArrayList<>();
         caveObjects = new ArrayList<>();
         sword = new ArrayList<>();
+        mover = new ArrayList<>();
         for (int i =0;i<16;i++){
             objects.add(new ArrayList<>());
             enemies.add(new ArrayList<>());
@@ -209,6 +212,9 @@ public class ZeldaGameState extends State {
         solids.add(new SectionDoor( 7,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
         solids.add(new DungeonDoor( 4,1,16*worldScale,16*worldScale,Direction.UP,"caveStartEnter",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
         solids.add(new SectionDoor( 15,5,16*worldScale,16*worldScale,Direction.RIGHT,handler));
+        solids.add(new MovingTile(5,5,"Up", Images.zeldaMoveTiles[0],handler));
+        solids.add(new MovingTile(5,4,"Right", Images.zeldaMoveTiles[2],handler));
+        solids.add(new MovingTile(6,4,"Down", Images.zeldaMoveTiles[1],handler));
         solids.add(new SolidStaticEntities(6,0,Images.forestTiles.get(2),handler));
         solids.add(new SolidStaticEntities(5,1,Images.forestTiles.get(5),handler));
         solids.add(new SolidStaticEntities(6,1,Images.forestTiles.get(6),handler));

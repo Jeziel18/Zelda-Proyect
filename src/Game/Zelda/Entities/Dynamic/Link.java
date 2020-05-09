@@ -2,6 +2,7 @@ package Game.Zelda.Entities.Dynamic;
 
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.Statics.DungeonDoor;
+import Game.Zelda.Entities.Statics.MovingTile;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.Entities.Statics.Sword;
@@ -355,7 +356,7 @@ public class Link extends BaseMovingEntity {
                                 break;
                         }
                         return;
-                    }
+                    }  
                     else {
                         if (((DungeonDoor) objects).name.equals("caveStartEnter")) {
                             ZeldaGameState.inCave = true;
@@ -364,8 +365,29 @@ public class Link extends BaseMovingEntity {
                             direction = UP;
                         }
                     }
+                } else if (objects instanceof MovingTile) {
+                	System.out.println("ok");
+                	if (objects.bounds.intersects(interactBounds)){
+                		System.out.println("wow");
+                		speed = 5;
+                		keyLock = true;
+                	if (((MovingTile) objects).name.equals("Up")){
+                		direction = Direction.UP;
+                		y -= speed;
+                	} else if (((MovingTile) objects).name.equals("Down")) {
+                		direction = Direction.DOWN;
+                		 y += speed;
+                	} else if (((MovingTile) objects).name.equals("Left")) {
+                		x -= speed;
+               	} else if (((MovingTile) objects).name.equals("Right")) {
+               		x += speed;
+           	} 
+                	} else {
+                		speed = 4;
+                		keyLock = false;
+                	}
                 }
-                else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
+                else if (!(objects instanceof SectionDoor) && !(objects instanceof MovingTile) && objects.bounds.intersects(interactBounds)) {
                     //dont move
                     return;
                 }
