@@ -35,7 +35,7 @@ public class Link extends BaseMovingEntity {
     boolean linkHit = false, animacion = false, attacking = false;
     boolean bienveR = false, bienveL = false, bienveU = false, bienveD = false;
     int powerUp = 2;
-    boolean keyLock = false;
+    boolean keyLock = false, moving = false;
 
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -51,10 +51,10 @@ public class Link extends BaseMovingEntity {
     @Override
     public void tick() {
     	for (Zora enemies: handler.getZeldaGameState().zoraList) {
-        	if (enemies instanceof Zora) {
+        	if (enemies instanceof Zora && !handler.getZeldaGameState().inCave) {
              	if(enemies.bounds.intersects(bounds) || bounds.contains(enemies.bounds)) {
         		linkHurt = true;
-        		System.out.println("OW");
+        		
              } }
         }
     	
@@ -164,6 +164,7 @@ public class Link extends BaseMovingEntity {
              if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && handler.getZeldaGameState().gotSword) {
             	speed = 0; // While attacking Link can't move
             	handler.getZeldaGameState().attackLink = true;
+            	
              	int animationSpeed = 120; //Link Attack animation Speed
              	  	
                       if (direction.equals(UP)) {
@@ -366,25 +367,28 @@ public class Link extends BaseMovingEntity {
                         }
                     }
                 } else if (objects instanceof MovingTile) {
-                	System.out.println("ok");
+                	
                 	if (objects.bounds.intersects(interactBounds)){
-                		System.out.println("wow");
                 		speed = 5;
                 		keyLock = true;
+                		moving = true;
+                		if(moving) {
                 	if (((MovingTile) objects).name.equals("Up")){
                 		direction = Direction.UP;
                 		y -= speed;
                 	} else if (((MovingTile) objects).name.equals("Down")) {
                 		direction = Direction.DOWN;
-                		 y += speed;
+                		y += speed;
                 	} else if (((MovingTile) objects).name.equals("Left")) {
                 		x -= speed;
-               	} else if (((MovingTile) objects).name.equals("Right")) {
-               		x += speed;
+                	} else if (((MovingTile) objects).name.equals("Right")) {
+               			x += speed;
            	} 
                 	} else {
                 		speed = 4;
                 		keyLock = false;
+                		moving = false;
+                	}
                 	}
                 }
                 else if (!(objects instanceof SectionDoor) && !(objects instanceof MovingTile) && objects.bounds.intersects(interactBounds)) {

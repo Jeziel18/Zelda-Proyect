@@ -47,7 +47,7 @@ public class Zora extends BaseMovingEntity {
 
     @Override
     public void tick() {
-    
+    	
     	if (handler.getZeldaGameState().zoraDeath) {
     		y = -10;
     		speed = 0;
@@ -129,43 +129,10 @@ public class Zora extends BaseMovingEntity {
             for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
                 if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
                     if (!(objects instanceof DungeonDoor)) {
-                        movingMap = true;
-                        movingTo = ((SectionDoor) objects).direction;
-                        switch (((SectionDoor) objects).direction) {
-                            case RIGHT:
-                                newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * worldScale)/4;
-                                newMapY = 0;
-                                handler.getZeldaGameState().mapX++;
-                                xExtraCounter = 8 * worldScale + (2 * worldScale);
-                                break;
-                            case LEFT:
-                                newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * worldScale)/4;
-                                newMapY = 0;
-                                handler.getZeldaGameState().mapX--;
-                                xExtraCounter = 8 * worldScale + (2 * worldScale);
-                                break;
-                            case UP:
-                                newMapX = 0;
-                                newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * worldScale)/4;
-                                handler.getZeldaGameState().mapY--;
-                                yExtraCounter = 8 * worldScale + (2 * worldScale);
-                                break;
-                            case DOWN:
-                                newMapX = 0;
-                                newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * worldScale)/4;
-                                handler.getZeldaGameState().mapY++;
-                                yExtraCounter = 8 * worldScale + (2 * worldScale);
-                                break;
-                        }
-                        return;
+                       
                     }
                     else {
-                        if (((DungeonDoor) objects).name.equals("caveStartEnter")) {
-                            ZeldaGameState.inCave = true;
-                            x = ((DungeonDoor) objects).nLX;
-                            y = ((DungeonDoor) objects).nLY;
-                            direction = UP;
-                        }
+                       
                     }
                 }
                 else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
