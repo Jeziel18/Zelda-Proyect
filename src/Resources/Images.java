@@ -254,10 +254,10 @@ public class Images {
             menu = new SpriteSheet(linkHearts); // Images for link hearts
             hearts = menu.crop(52, 230, 7, 8); //Hearts for Link's live
            
-            zeldaMoveTiles[0] = movers.crop(12, 7, 16, 16); //up
-            zeldaMoveTiles[1] = movers.crop(32, 7, 16, 16); //down
-            zeldaMoveTiles[2] = movers.crop(52, 7, 16, 16); //right
-            zeldaMoveTiles[3] = movers.crop(72, 7, 16, 16); //left
+            zeldaMoveTiles[0] = movers.crop(0, 0, 16, 16); //up
+            zeldaMoveTiles[1] = movers.crop(16, 0, 16, 16); //down
+            zeldaMoveTiles[2] = movers.crop(32, 0, 16, 16); //right
+            zeldaMoveTiles[3] = movers.crop(48, 0, 16, 16); //left
             
             //Enemy file
             enemy = ImageIO.read(getClass().getResourceAsStream("/Edited/enemies_overworld_0,128,0_green.png"));
