@@ -2,6 +2,7 @@ package Game.Zelda.World;
 
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.Zelda.Entities.Dynamic.MMLink;
+import Game.Zelda.Entities.Statics.MMMovingTile;
 import Game.Zelda.Entities.Statics.MMSolidStaticEntities;
 import Game.Zelda.Entities.Statics.MMTeleport;
 import Game.Zelda.Entities.Statics.MMWalkingSolidEntities;
@@ -28,7 +29,7 @@ public class MapBuilder {
 		}
 		name+=".txt";
 		String path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-		String path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name;
+		String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name;
 		ArrayList<ArrayList<int[]>> linkedTeli = new ArrayList<>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader( new File(path2)));
@@ -71,8 +72,12 @@ public class MapBuilder {
 				int currentPixel = mapImage.getRGB(i, j);
 				int xPos = i*pixelMultiplier;
 				int yPos = j*pixelMultiplier;
+				
 				if(currentPixel == DDDoor){
 					MMSolidStaticEntities ghost = new MMSolidStaticEntities(xPos,yPos,Images.zeldaTiles.get(0),handler);
+					mapInCreation.addBlock(ghost);
+				}else if(currentPixel == UpArrow){
+					MMMovingTile ghost = new MMMovingTile(xPos,yPos, "Up", Images.zeldaMoveTiles[0],handler);
 					mapInCreation.addBlock(ghost);
 				}else if(currentPixel == DDDoor1){
 					MMSolidStaticEntities ghost = new MMSolidStaticEntities(xPos,yPos,Images.zeldaTiles.get(1),handler);
@@ -683,7 +688,7 @@ public class MapBuilder {
 	public static BufferedImage arrayToRGBImage(ArrayList<ArrayList<BufferedImage>> info,String name,ArrayList<ArrayList<int[]>> teleportList){
 
 		String path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-		String path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name+".png";
+		String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name+".png";
 		File imagess = new File(path2.replaceAll("%20"," "));
 		if (imagess.exists()){
 			try {
@@ -699,8 +704,11 @@ public class MapBuilder {
 		File f2 = null;
 		for (int y = 0; y < info.get(0).size(); y++) {
 			for (int x = 0; x < info.size(); x++) {
+				
 				if (Images.zeldaTiles.get(0).equals(info.get(x).get(y))){
 					image.setRGB(x,y,DDDoor);
+				}else if (Images.zeldaMoveTiles[0].equals(info.get(x).get(y))){
+					image.setRGB(x,y,UpArrow);
 				}else if (Images.zeldaTiles.get(1).equals(info.get(x).get(y))){
 					image.setRGB(x,y,DDDoor1);
 				}else if (Images.zeldaTiles.get(2).equals(info.get(x).get(y))){
@@ -1101,8 +1109,8 @@ public class MapBuilder {
 
 		try {
 			path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-			path2 = path.substring(0, path.indexOf("/out/")) + "/res/Edited/" + name + ".png";
-			String path3 = path.substring(0, path.indexOf("/out/")) + "/res/Edited/" + name + ".txt";
+			path2 = path.substring(0, path.indexOf("/bin/")) + "/res/Edited/" + name + ".png";
+			String path3 = path.substring(0, path.indexOf("/bin/")) + "/res/Edited/" + name + ".txt";
 			f = new File(path2.replaceAll("%20", " "));
 			System.out.println("File saved in: " + path2);
 			ImageIO.write(image, "png", f);
@@ -1164,6 +1172,9 @@ public class MapBuilder {
 
 
 	//dungeons
+	
+	public static int UpArrow = new Color(140, 55, 255).getRGB();
+	
 	public static int Dhole = new Color(0, 0, 0).getRGB();//smalls
 	public static int Dwall = new Color(4, 225, 209).getRGB();
 	public static int Dsand = new Color(8, 124, 132).getRGB();

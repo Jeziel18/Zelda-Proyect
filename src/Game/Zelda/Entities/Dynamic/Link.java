@@ -325,6 +325,9 @@ public class Link extends BaseMovingEntity {
             }
         }
         else {
+        	
+        	
+        	
             for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
                 if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
                     if (!(objects instanceof DungeonDoor)) {

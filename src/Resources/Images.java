@@ -91,6 +91,7 @@ public class Images {
     public static BufferedImage enemy; //File location for enemy images
     public static BufferedImage[] Enemys; // BufferedImage array of enemys
     public static SpriteSheet monsters; //SpriteSheet for the crop
+    public static ArrayList<BufferedImage> moverse;
 
     
 
@@ -132,6 +133,7 @@ public class Images {
         
         oldMan = new BufferedImage[5]; // New Images for cave and animations 
         Enemys  = new BufferedImage[2]; // Images of the enemys
+        moverse = new ArrayList<>();
 
 
 
@@ -328,7 +330,13 @@ public class Images {
 
             bouncyEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(162,90,16,16);
             bouncyEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(179,90,16,16);
-
+            
+            moverse.add(movers.crop(0, 0, 16, 16)); //Up
+            moverse.add(movers.crop(16, 0, 16, 16)); //Down
+            moverse.add(movers.crop(32, 0, 16, 16)); //Right
+            moverse.add(movers.crop(48, 0, 16, 16)); //Left
+            
+            
             //dungeon one tiles
             zeldaTiles.add(zeldaSpriteSheet.crop(815,11,32,32));
             zeldaTiles.add(zeldaSpriteSheet.crop(848,11,32,32));

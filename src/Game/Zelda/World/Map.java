@@ -28,7 +28,7 @@ public class Map {
     public void addBlock(MMBaseEntity block){
         blocksOnMap.add(block);
     }
-
+    
     public void addEnemy(MMBaseMovingEntity entity){
         enemiesOnMap.add(entity);
     }

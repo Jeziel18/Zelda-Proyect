@@ -4,7 +4,9 @@ import Game.GameStates.Zelda.ZeldaMMGameState;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.MMBaseEntity;
+import Game.Zelda.Entities.Statics.MMMovingTile;
 import Game.Zelda.Entities.Statics.MMSolidStaticEntities;
+import Game.Zelda.Entities.Statics.MovingTile;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.World.Map;
 import Main.Handler;
@@ -105,9 +107,36 @@ public class MMLink extends MMBaseMovingEntity {
     public void move(Direction direction) {
         moving = true;
         changeIntersectingBounds();
+        
+        for(MMBaseEntity tile: map.getBlocksOnMap()) {  //For creating in the Map Maker
+    		if (tile instanceof MMMovingTile) {
+            	
+            	if (tile.bounds.intersects(interactBounds)){
+            		speed = 5;
+            		moving = true;
+            		if(moving) {
+            	if (((MMMovingTile) tile).name.equals("Up")){
+            		direction = Direction.UP;
+            		y -= speed;
+            	} else if (((MMMovingTile) tile).name.equals("Down")) {
+            		direction = Direction.DOWN;
+            		y += speed;
+            	} else if (((MMMovingTile) tile).name.equals("Left")) {
+            		x -= speed;
+            	} else if (((MMMovingTile) tile).name.equals("Right")) {
+           			x += speed;
+       	} 
+            	} else {
+            		speed = 4;
+            		moving = false;
+            	}
+            	}
+            }
+    	}
+        
         //chack for collisions
         for (MMBaseEntity solidStaticEntities:map.getBlocksOnMap()){
-            if (solidStaticEntities instanceof MMSolidStaticEntities && solidStaticEntities.bounds.intersects(interactBounds)){
+            if (solidStaticEntities instanceof MMSolidStaticEntities && !(solidStaticEntities instanceof MMMovingTile) && solidStaticEntities.bounds.intersects(interactBounds)){
                 return;
             }
         }

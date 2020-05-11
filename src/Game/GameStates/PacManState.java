@@ -21,7 +21,7 @@ public class PacManState extends State {
 
     public PacManState(Handler handler){
         super(handler);
-        handler.setMap(MapBuilder.createMap(Images.map1, handler));
+        //handler.setMap(MapBuilder.createMap(Images.map1, handler));
 
     }
 
@@ -30,26 +30,26 @@ public class PacManState extends State {
     public void tick() {
         if (Mode.equals("Stage")){
             if (startCooldown<=0) {
-                for (BaseDynamic entity : handler.getMap().getEnemiesOnMap()) {
-                    entity.tick();
-                }
+//                for (BaseDynamic entity : handler.getMap().getEnemiesOnMap()) {
+//                    entity.tick();
+//                }
                 ArrayList<BaseStatic> toREmove = new ArrayList<>();
-                for (BaseStatic blocks: handler.getMap().getBlocksOnMap()){
-                    if (blocks instanceof Dot){
-                        if (blocks.getBounds().intersects(handler.getPacman().getBounds())){
-                            handler.getMusicHandler().playEffect("pacman_chomp.wav");
-                            toREmove.add(blocks);
-                            handler.getScoreManager().addPacmanCurrentScore(10);
-                        }
-                    }else if (blocks instanceof BigDot){
-                        if (blocks.getBounds().intersects(handler.getPacman().getBounds())){
-                            handler.getMusicHandler().playEffect("pacman_chomp.wav");
-                            toREmove.add(blocks);
-                            handler.getScoreManager().addPacmanCurrentScore(100);
-
-                        }
-                    }
-                }
+//                for (BaseStatic blocks: handler.getMap().getBlocksOnMap()){
+//                    if (blocks instanceof Dot){
+//                        if (blocks.getBounds().intersects(handler.getPacman().getBounds())){
+//                            handler.getMusicHandler().playEffect("pacman_chomp.wav");
+//                            toREmove.add(blocks);
+//                            handler.getScoreManager().addPacmanCurrentScore(10);
+//                        }
+//                    }else if (blocks instanceof BigDot){
+//                        if (blocks.getBounds().intersects(handler.getPacman().getBounds())){
+//                            handler.getMusicHandler().playEffect("pacman_chomp.wav");
+//                            toREmove.add(blocks);
+//                            handler.getScoreManager().addPacmanCurrentScore(100);
+//
+//                        }
+//                    }
+//                }
                 for (BaseStatic removing: toREmove){
                     handler.getMap().getBlocksOnMap().remove(removing);
                 }

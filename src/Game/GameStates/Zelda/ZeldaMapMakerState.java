@@ -1,6 +1,7 @@
 package Game.GameStates.Zelda;
 
 import Game.GameStates.State;
+import Game.Zelda.Entities.Statics.MovingTile;
 import Game.Zelda.World.Map;
 import Game.Zelda.World.MapBuilder;
 import Main.Handler;
@@ -31,6 +32,7 @@ public class ZeldaMapMakerState extends State {
     public static final BufferedImage unChange = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     ArrayList<int[]> drawStack = new ArrayList<>();
     ArrayList<ArrayList<int[]>> linkedTeleports = new ArrayList<>();
+    public ArrayList<MovingTile> mover; // Array for Moving tiles
     boolean linking = false;
     boolean linkingStarted = false;
     boolean rightClicked = false;
@@ -40,7 +42,7 @@ public class ZeldaMapMakerState extends State {
     public ZeldaMapMakerState(Handler handler) {
         super(handler);
         grid = new ArrayList<>();
-
+        mover = new ArrayList<>(); //Declaring array list of moving tiles
         pixelTotalWidth = handler.getWidth()/pixelsPerSquare;
         pixelTotalHeight = handler.getHeight() / pixelsPerSquare;
         for (int x = 0 ; x<= pixelTotalWidth;x++){
@@ -52,11 +54,11 @@ public class ZeldaMapMakerState extends State {
         selectedList = Images.zeldaTiles;
 
 
-
     }
 
     @Override
     public void tick() {
+    	
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H)){
             handler.getDisplayScreen().confirm(
                     "Note: Some keys will require you to press them multiple times, not just why tbh.\n" +
@@ -81,7 +83,7 @@ public class ZeldaMapMakerState extends State {
             }else {
 
                 selector++;
-                if (selector > 4) {
+                if (selector > 5) {
                     selector = 0;
                 }
                 counter = 0;
@@ -101,6 +103,9 @@ public class ZeldaMapMakerState extends State {
                     case 4:
                         selectedList = Images.graveTiles;
                         break;
+                    case 5:
+                        selectedList = Images.moverse;
+                        break;
                 }
             }
         }
@@ -115,6 +120,7 @@ public class ZeldaMapMakerState extends State {
             if (!linking) {
                 int xCoords = (handler.getMouseManager().getMouseX() / (pixelsPerSquare));
                 int yCoords = (handler.getMouseManager().getMouseY() / (pixelsPerSquare));
+                
                 if (grid.get(xCoords).get(yCoords) == null || !grid.get(xCoords).get(yCoords).equals(unChange)) {
                     if (handler.getKeyManager().shift && ! linkPlaced) {
                         grid.get(xCoords).set(yCoords, Images.zeldaLinkFrames[0]);
@@ -232,6 +238,15 @@ public class ZeldaMapMakerState extends State {
                             counter++;
                         }
                         break;
+                        
+                    case 5:
+                    	if (counter == 3) { //Moving tiles
+                            counter = 0;
+                        } else {
+                            counter++;
+                        }
+                        break;
+                        
                     default:
                         if (counter == 41) {
                             counter = 0;
@@ -254,6 +269,15 @@ public class ZeldaMapMakerState extends State {
                             counter--;
                         }
                         break;
+                        
+                    case 5:
+                    	if (counter == 3) { //Moving tiles
+                            counter = 0;
+                        } else {
+                            counter++;
+                        }
+                        break;
+                        
                     default:
                         if (counter == 0) {
                             counter = 41;
@@ -273,6 +297,15 @@ public class ZeldaMapMakerState extends State {
                             counter = 15;
                         }
                         break;
+                        
+                    case 5:
+                    	if (counter >= 2) { //Moving tiles
+                            counter = 0;
+                        } else {
+                            counter = 2;
+                        }
+                        break;
+                        
                     default:
                         if (counter >= 20) {
                             counter = 0;
@@ -285,10 +318,16 @@ public class ZeldaMapMakerState extends State {
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)){ //chooses a random tile.
         	int i = casey.nextInt(30);
         	int j = casey.nextInt(42);
+        	int k = casey.nextInt(4);
             switch (selector) {
                 case 0:
                     counter = i;
                     break;
+                    
+                case 5:
+                    counter = k; //Moving tiles
+                    break;
+                    
                 default:
                     counter = j;
                     break;
@@ -296,7 +335,8 @@ public class ZeldaMapMakerState extends State {
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_R) && handler.getKeyManager().shift){ //chooses a random tileset and a random tile.
         	int i = casey.nextInt(30);
         	int j = casey.nextInt(42);
-        	selector = casey.nextInt(5);
+        	int k = casey.nextInt(4);
+        	selector = casey.nextInt(6);
         	switch (selector) {
             case 0:
                 selectedList = Images.zeldaTiles;
@@ -317,6 +357,10 @@ public class ZeldaMapMakerState extends State {
             case 4:
                 selectedList = Images.graveTiles;
                 counter = j;
+                break;
+            case 5:
+            	selectedList = Images.moverse; //Moving tiles
+                counter = k; 
                 break;
         } } 
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_S)){
