@@ -110,9 +110,10 @@ public class MMLink extends MMBaseMovingEntity {
         
         for(MMBaseEntity tile: map.getBlocksOnMap()) {  //For creating in the Map Maker
     		if (tile instanceof MMMovingTile) {
-            	
-            	if (tile.bounds.intersects(interactBounds)){
-            		speed = 5;
+            	System.out.println("lol");
+            	if (tile.bounds.intersects(bounds)){
+            		System.out.println("boomer");
+            		speed = 6;
             		moving = true;
             		if(moving) {
             	if (((MMMovingTile) tile).name.equals("Up")){
@@ -126,10 +127,10 @@ public class MMLink extends MMBaseMovingEntity {
             	} else if (((MMMovingTile) tile).name.equals("Right")) {
            			x += speed;
        	} 
-            	} else {
+            	} 
+            	}else {
             		speed = 4;
             		moving = false;
-            	}
             	}
             }
     	}

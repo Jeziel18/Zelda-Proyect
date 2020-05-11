@@ -77,7 +77,19 @@ public class MapBuilder {
 					MMSolidStaticEntities ghost = new MMSolidStaticEntities(xPos,yPos,Images.zeldaTiles.get(0),handler);
 					mapInCreation.addBlock(ghost);
 				}else if(currentPixel == UpArrow){
-					MMMovingTile ghost = new MMMovingTile(xPos,yPos, "Up", Images.zeldaMoveTiles[0],handler);
+					MMMovingTile ghost = new MMMovingTile(xPos,yPos, "Up", Images.moverse.get(0),handler);
+					mapInCreation.addBlock(ghost);
+				}
+				else if(currentPixel == DownArrow){
+					MMMovingTile ghost = new MMMovingTile(xPos,yPos, "Down", Images.moverse.get(1),handler);
+					mapInCreation.addBlock(ghost);
+				}
+				else if(currentPixel == RightArrow){
+					MMMovingTile ghost = new MMMovingTile(xPos,yPos, "Right", Images.moverse.get(2),handler);
+					mapInCreation.addBlock(ghost);
+				}
+				else if(currentPixel == LeftArrow){
+					MMMovingTile ghost = new MMMovingTile(xPos,yPos, "Left", Images.moverse.get(3),handler);
 					mapInCreation.addBlock(ghost);
 				}else if(currentPixel == DDDoor1){
 					MMSolidStaticEntities ghost = new MMSolidStaticEntities(xPos,yPos,Images.zeldaTiles.get(1),handler);
@@ -707,8 +719,14 @@ public class MapBuilder {
 				
 				if (Images.zeldaTiles.get(0).equals(info.get(x).get(y))){
 					image.setRGB(x,y,DDDoor);
-				}else if (Images.zeldaMoveTiles[0].equals(info.get(x).get(y))){
+				}else if (Images.moverse.get(0).equals(info.get(x).get(y))){
 					image.setRGB(x,y,UpArrow);
+				}else if (Images.moverse.get(1).equals(info.get(x).get(y))){
+					image.setRGB(x,y,DownArrow);
+				}else if (Images.moverse.get(2).equals(info.get(x).get(y))){
+					image.setRGB(x,y,RightArrow);
+				}else if (Images.moverse.get(3).equals(info.get(x).get(y))){
+					image.setRGB(x,y,LeftArrow);
 				}else if (Images.zeldaTiles.get(1).equals(info.get(x).get(y))){
 					image.setRGB(x,y,DDDoor1);
 				}else if (Images.zeldaTiles.get(2).equals(info.get(x).get(y))){
@@ -1173,11 +1191,15 @@ public class MapBuilder {
 
 	//dungeons
 	
-	public static int UpArrow = new Color(140, 55, 255).getRGB();
+	
 	
 	public static int Dhole = new Color(0, 0, 0).getRGB();//smalls
 	public static int Dwall = new Color(4, 225, 209).getRGB();
 	public static int Dsand = new Color(8, 124, 132).getRGB();
+	public static int UpArrow = new Color(140, 55, 255).getRGB();
+	public static int DownArrow = new Color(140, 55, 254).getRGB();
+	public static int RightArrow = new Color(140, 55, 253).getRGB();
+	public static int LeftArrow = new Color(140, 55, 252).getRGB();
 	public static int Dwater = new Color(12, 60, 92).getRGB();
 	public static int Dfloor = new Color(16, 180, 179).getRGB();
 	public static int Dstairs = new Color(18, 117, 167).getRGB();

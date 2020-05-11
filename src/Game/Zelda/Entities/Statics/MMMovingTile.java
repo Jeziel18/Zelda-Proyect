@@ -16,7 +16,7 @@ public class MMMovingTile extends MMBaseEntity {
     public String name;
     public MMMovingTile(int x, int y, String name, BufferedImage sprite, Handler handler) {
     	super(x, y, sprite,handler);
-        bounds = new Rectangle((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
+        bounds = new Rectangle(x ,y ,width,height);
         this.name = name;
     }
 
