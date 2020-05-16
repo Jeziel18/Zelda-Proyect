@@ -23,7 +23,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Ghini extends BaseMovingEntity {
 
 
-    private final int animSpeed = 60; 
+    private final int animSpeed = 90; 
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0,deathCooldown =0;
     public boolean movingMap = false;
     Direction movingTo;
@@ -37,17 +37,17 @@ public class Ghini extends BaseMovingEntity {
 
     public Ghini(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite, handler);
-        speed = 1;
+        speed = 100;
         BufferedImage[] animList = new BufferedImage[2];
-        animList[0] = sprite[0];
-        animList[1] = sprite[1];
+        animList[0] = sprite[2];
+        animList[1] = sprite[3];
         
         animation = new Animation(animSpeed,animList);
     }
 
     @Override
     public void tick() {
-    	
+    	animation.tick();
     	if (handler.getZeldaGameState().ghiniDeath) {
     		y = -10;
     		speed = 0;
@@ -55,49 +55,29 @@ public class Ghini extends BaseMovingEntity {
     		  
           //For Movement
     	if (randMove <= 90) {
-    	randMove = move.nextInt(121);
+    	randMove = 1;
     	direct = move.nextInt(4);
-    	inAction = randMove + 60;
+    	inAction = randMove;
     	}
     	BufferedImage[] animList = new BufferedImage[2];
     	if (inAction > 0) {
-    		speed = 1;
+    		speed = 3;
     		inAction--;
     	switch(direct) {
     		case 0:                
-                    animList[0] = sprites[3];
-                    animList[1] = sprites[3];
-                    animation = new Animation(animSpeed, animList);
                     direction = UP;
-                    sprite = sprites[3];
-                animation.tick();
                 move(direction);
                 break;
     		case 1:
-                    animList[0] = sprites[2];
-                    animList[1] = sprites[2];
-                    animation = new Animation(animSpeed, animList);
                     direction = DOWN;
-                    sprite = sprites[2];
-                animation.tick();
                 move(direction);
                 break;
     		case 2:
-    				animList[0] = sprites[2];
-    				animList[1] = sprites[2];
-                    animation = new Animation(animSpeed, animList);
                     direction = Direction.LEFT;
-                    sprite = sprites[2];
-                animation.tick();
                 move(direction);
                 break;
     		case 3:
-    				animList[0] = sprites[2];
-    				animList[1] = sprites[2];
-                    animation = new Animation(animSpeed, animList);
                     direction = Direction.RIGHT;
-                    sprite = (sprites[2]);
-                animation.tick();
                 move(direction);
             }
     	}else {
@@ -114,7 +94,7 @@ public class Ghini extends BaseMovingEntity {
             g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
 
         } else {
-            	g.drawImage(sprite, x , y, width , height , null);	
+            	g.drawImage(animation.getCurrentFrame(), x , y, width , height , null);	
             
         }
        
@@ -136,7 +116,7 @@ public class Ghini extends BaseMovingEntity {
                     }
                 }
                 else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
-                    speed = -10;
+                    speed = -3;
                 }
             }
         
