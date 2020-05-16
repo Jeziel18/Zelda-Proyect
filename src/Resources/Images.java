@@ -132,7 +132,7 @@ public class Images {
         bouncyEnemyFrames = new BufferedImage[2];
         
         oldMan = new BufferedImage[5]; // New Images for cave and animations 
-        Enemys  = new BufferedImage[2]; // Images of the enemys
+        Enemys  = new BufferedImage[4]; // Images of the enemys
         moverse = new ArrayList<>();
 
 
@@ -266,6 +266,8 @@ public class Images {
             monsters = new SpriteSheet(enemy); // Enemy SpriteSheet
             Enemys[0] = monsters.crop(223, 11, 16, 16); // Zora (EU)
             Enemys[1] = monsters.crop(251, 153, 16, 16); // Zora (JPN)
+            Enemys[2] = monsters.crop(248, 59, 16, 16); // Ghini front
+            Enemys[3] = monsters.crop(265, 59, 16, 16); // Ghini back
             
             zeldaImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/tileSet.png"));
             zeldaTriforceLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/triforceLogo.png"));

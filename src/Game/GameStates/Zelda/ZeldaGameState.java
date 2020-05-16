@@ -3,6 +3,7 @@ package Game.GameStates.Zelda;
 import Game.GameStates.State;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.Direction;
+import Game.Zelda.Entities.Dynamic.Ghini;
 import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Statics.DungeonDoor;
@@ -35,12 +36,14 @@ public class ZeldaGameState extends State {
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> monster;
     public Link link;
     public Zora zora;
+    public Ghini ghini;
     public static boolean inCave = false;
     public ArrayList<SolidStaticEntities> caveObjects;
     public ArrayList<Sword> sword;
     public ArrayList<MovingTile> mover;
     public ArrayList<Zora> zoraList;
-    public boolean gotSword = false, pasted = false, zoraDeath = false, attackLink = false;
+    public ArrayList<Ghini> ghinilist;
+    public boolean gotSword = false, pasted = false, zoraDeath = false, ghiniDeath = false, attackLink = false;
 
 
     public ZeldaGameState(Handler handler) {
@@ -59,6 +62,7 @@ public class ZeldaGameState extends State {
         objects = new ArrayList<>();
         enemies = new ArrayList<>();
         zoraList = new ArrayList<>();
+        ghinilist = new ArrayList<>();
         caveObjects = new ArrayList<>();
         sword = new ArrayList<>();
         mover = new ArrayList<>();
@@ -75,8 +79,11 @@ public class ZeldaGameState extends State {
 
         link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames,handler);
         
-        zora = new Zora(684, 500,Images.Enemys,handler); // Create enemy
+        zora = new Zora(684, 500,Images.Enemys,handler); // Create enemy zora
         zoraList.add(zora);
+        
+        ghini = new Ghini(780, 500,Images.Enemys,handler); // Create enemy ghini
+        ghinilist.add(ghini);
     }
 
     
@@ -85,21 +92,33 @@ public class ZeldaGameState extends State {
     public void tick() {
     	if(gotSword) {
     		swordTimer --;
-    		for (Zora entity: zoraList) {
+    		for (Zora entity: zoraList) {  // Kill Zora
     			if(entity instanceof Zora && !inCave) {
     				if(link.bounds.intersects(entity.bounds) && attackLink) {
     					zoraDeath = true;
+    					
     					health++;
     					
     				}
     			}
     		}
+    		for (Ghini entity: ghinilist) { // Kill Ghini
+    			if(entity instanceof Ghini && !inCave) {
+    				if(link.bounds.intersects(entity.bounds) && attackLink) {
+    					ghiniDeath = true;
+    					health++;
+    					
+    				}
+    			}
+    		}
+
     	}
     	if(caveTimer == 0) {
     		System.out.println("True");
     	}
         link.tick();
-        zora.tick(); //Get the animation running
+        zora.tick(); //Get the animation running for Zora
+        ghini.tick(); //Get the animation running for Ghini
         if (inCave){
         	caveTimer --;  
         	for (SolidStaticEntities entity : sword) {
@@ -159,7 +178,8 @@ public class ZeldaGameState extends State {
                 }
             }
             link.render(g);
-            zora.render(g); // draw the enemy
+            zora.render(g); // draw the enemy zora
+            ghini.render(g); // draw the enemy ghini
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, xOffset, handler.getHeight());
             g.fillRect(xOffset + stageWidth, 0, handler.getWidth(), handler.getHeight());
@@ -212,9 +232,6 @@ public class ZeldaGameState extends State {
         solids.add(new SectionDoor( 7,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
         solids.add(new DungeonDoor( 4,1,16*worldScale,16*worldScale,Direction.UP,"caveStartEnter",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
         solids.add(new SectionDoor( 15,5,16*worldScale,16*worldScale,Direction.RIGHT,handler));
-        solids.add(new MovingTile(5,5,"Up", Images.zeldaMoveTiles[0],handler));
-        solids.add(new MovingTile(5,4,"Right", Images.zeldaMoveTiles[2],handler));
-        solids.add(new MovingTile(6,4,"Down", Images.zeldaMoveTiles[1],handler));
         solids.add(new SolidStaticEntities(6,0,Images.forestTiles.get(2),handler));
         solids.add(new SolidStaticEntities(5,1,Images.forestTiles.get(5),handler));
         solids.add(new SolidStaticEntities(6,1,Images.forestTiles.get(6),handler));

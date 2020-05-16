@@ -50,12 +50,20 @@ public class Link extends BaseMovingEntity {
 
     @Override
     public void tick() {
-    	for (Zora enemies: handler.getZeldaGameState().zoraList) {
+    	for (Zora enemies: handler.getZeldaGameState().zoraList) {  // Zora damage link
         	if (enemies instanceof Zora && !handler.getZeldaGameState().inCave) {
              	if(enemies.bounds.intersects(bounds) || bounds.contains(enemies.bounds)) {
         		linkHurt = true;
-        		
-             } }
+        		}
+             } 
+        }
+    	
+    	for (Ghini enemies: handler.getZeldaGameState().ghinilist) { // Ghini damage link
+        	if (enemies instanceof Ghini && !handler.getZeldaGameState().inCave) {
+             	if(enemies.bounds.intersects(bounds) || bounds.contains(enemies.bounds)) {
+        		linkHurt = true;
+        		}
+             } 
         }
     	
     	if(powerUp >= 0 && powerUp <= 1) {
