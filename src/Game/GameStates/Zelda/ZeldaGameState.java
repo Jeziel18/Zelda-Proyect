@@ -52,7 +52,7 @@ public class ZeldaGameState extends State {
         yOffset = handler.getHeight()/4;
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
-        worldScale = 2;
+        worldScale = 3;
         mapX = 7;
         mapY = 7;
         mapWidth = 256;
